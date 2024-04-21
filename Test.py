@@ -14,14 +14,13 @@ def predict_personality(data):
     return predictions
 
 ## function to generate a bar chart
-def generate_chart(predictions):
-    # Load the user responses
-    data = pd.read_csv('user_responses.csv')
+def generate_chart(predictions,data):
     # Count the number of predictions in each cluster
     cluster_counts = pd.Series(predictions).value_counts().sort_index()
     print(cluster_counts)
     # Create a bar chart
     col_list = list(data)
+    print(col_list)
     ext = col_list[0:10]
     est = col_list[10:20]
     agr = col_list[20:30]

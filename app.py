@@ -30,15 +30,15 @@ def submit():
         '[2]':'neurotic',
         '[3]':'agreeable',
         '[4]':'conscientious',
-        '[5]':'open'
+        '[5]':'open',
     }
     personality_type = results[str(personality_type)]
-    output = f"Your personality type is: {personality_type}"
+    
 
     ## Generate the bar chart
-    generate_chart(predict_personality(data = user_responses_df))
+    generate_chart(predict_personality(data = user_responses_df),user_responses_df)
 
-    return output
+    return render_template('results.html', personality_type=personality_type)
 
 if __name__ == '__main__':
     app.run(debug=True)
