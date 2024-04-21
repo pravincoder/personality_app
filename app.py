@@ -1,8 +1,7 @@
 from flask import Flask, render_template, request
 import pandas as pd
 from pickle import load
-from Test import predict_personality, generate_chart
-import plotly.express as px
+from Test import  generate_chart
 app = Flask(__name__)
 
 #load the questions from the CSV file
@@ -18,27 +17,16 @@ def submit():
     for key, value in request.form.items():
         user_responses[key] = value
 
-    # Write user responses to CSV file
-    user_responses_df = pd.DataFrame([user_responses])
-   
-    # Get prediction from the perdict_personality function
-    personality_type = predict_personality(user_responses_df)
-    
-    ## Results Options
-    results ={
-        '[1]':'extroversion',
-        '[2]':'neurotic',
-        '[3]':'agreeable',
-        '[4]':'conscientious',
-        '[5]':'open',
-    }
-    personality_type = results[str(personality_type)]
-    
+    # Write user responses to dataframe
+    user_responses_df = pd.DataFrame(user_responses, index=[0])
+    user_responses_df = user_responses_df.astype(int)
+     
+    ## Generate the chart, get the personality type and the personality traits value(my_sums)
+    personality_type,my_sums=generate_chart(user_responses_df)
 
-    ## Generate the bar chart
-    generate_chart(predict_personality(data = user_responses_df),user_responses_df)
-
-    return render_template('results.html', personality_type=personality_type)
+    # Render the results.html template and pass the personality type and the personality traits value
+    return render_template('results.html',personality_type=personality_type,
+                           labels=list(my_sums.columns[0:5]),data=list(my_sums.values[0][0:5]))
 
 if __name__ == '__main__':
     app.run(debug=True)
