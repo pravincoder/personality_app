@@ -23,7 +23,7 @@ This project is a web application built with Flask that assesses personality bas
 1. Clone the repository:
 
     ```bash
-    git clone https://github.com/your_username/personality-assessment-web-app.git
+    git clone https://github.com/pravincoder/personality_app.git
     ```
 
 2. Install dependencies:
